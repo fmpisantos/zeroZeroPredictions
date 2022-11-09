@@ -50,6 +50,7 @@ def createDirectory(path = ""):
 
 # write dictionary to file
 def writeToFile (data, filename):
+    filename = filename.replace("//","/")
     createDirectory(os.path.dirname(filename))
     with open(filename, 'a') as outfile:
         json.dump(data, outfile, indent=4)
@@ -73,13 +74,13 @@ def parseRequestResponse(response, request = ""):
     return None
 
 # convert ../zeroZero/utils.py/request to python3  
-def _request(url = "", headers = config.headers, method = config.GET):
+def _request(url = "", headers = config.headers, method = config.GET, filename=""):
     if method == config.GET:
-        return parseRequestResponse(requests.get(config.getUrl(url), headers = headers), url)
+        return parseRequestResponse(requests.get(config.getUrl(url), headers = headers), f"{url.split('?')[0]}{f'/{filename}' if len(filename) > 0 else ''}")
     elif method == config.POST:
-        return parseRequestResponse(requests.post(config.getUrl(url), headers = headers), url)
+        return parseRequestResponse(requests.post(config.getUrl(url), headers = headers), f"{url.split('?')[0]}{f'/{filename}' if len(filename) > 0 else ''}")
     elif method == config.PUT:
-        return parseRequestResponse(requests.put(config.getUrl(url), headers = headers), url)
+        return parseRequestResponse(requests.put(config.getUrl(url), headers = headers), f"{url.split('?')[0]}{f'/{filename}' if len(filename) > 0 else ''}")
     else:
         return None
 
