@@ -1,0 +1,34 @@
+{
+    "id": "idx on a certain file array",
+    "filepath": "path/to/file",
+    "fixtureId": "fixtureId",
+    "green": "did NOT end in draw",
+    // Do for team 1, team 2 and average
+        // region prediction
+        "notDrawPrediction": "1-drawPrediction",
+        // region teams.[home or away]
+        "team.form": "0-1",
+        "team.att": "0-1",
+        "team.def": "0-1",
+        "team.goals": "0-x (sum of team.home.goals (for and against) average)",
+        // region league
+        "team.league.fixtures.notDrawPrediction": "1-drawPrediction",
+        // region for or against
+        "team.league.goals.average": "0-1",
+        "minutePercentageAverage": "0-1",
+        // end region for or against
+        "notClearSheets": "1 - away or home / totalGames",
+        "notFailedToScore": "1 - away or home / totalGames",
+        // end region league
+        // end region teams.[home or away]
+        // end region prediction
+    // region comparison
+    "form": "abs(home - away)",
+    "att": "abs(home - away)",
+    "def": "abs(home - away)",
+    "poisson_distribution": "abs(home - away)",
+    "h2h": "abs(home - away)",
+    "total": "abs(home - away)",
+    // end region comparison
+    // TODO: h2h analysis of h2h games as well
+}
