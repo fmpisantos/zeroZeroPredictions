@@ -15,7 +15,7 @@ printToConsole = False
 dbLocation = "output/clearedData/db.json"
 
 maxNumberOfDailyRequests = 75000
-requestsPerDay = 1000
+requestsPerDay = 50000
 
 # Variables
 now = datetime.now()
@@ -29,3 +29,6 @@ def getErrorOutput(request = ""):
 
 def getUrl(request = ""):
     return f"{url}/{request}"
+
+def getNRequestsPath():
+    return f"{output}/nRequests.json"

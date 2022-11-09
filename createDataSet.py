@@ -80,7 +80,7 @@ def getFixturesFromDayBackwards(date, nRequests = 0):
         fixtures.extend(fixturesForDay)
         # Get previous day
         date = utils.getPreviousDay(date)
-    utils.writeToFile(nRequests,config.getOutput('requests'))
+    utils.writeToFile(nRequests,config.getNRequestsPath(), type="w")
     return fixtures
 
 
@@ -88,12 +88,12 @@ def getFixturesFromDayBackwards(date, nRequests = 0):
 if __name__ == "__main__":
     # Load number of requests done today
     try :
-        nRequests = utils.readJsonFile(config.getOutput('requests'))
-    except:
+        nRequests = utils.readIntFromFile(config.getNRequestsPath())
+    except Exception as e:
         nRequests = 0
     # Get yesterday date
     date = utils.getPreviousDay()
     # Get fixtures from a day backwards until hit requestsPerDay
     fixtures = getFixturesFromDayBackwards(date, nRequests)
     # Write fixtures to file
-    utils.writeToFile(fixtures, config.getOutput('fixtures'))
+    utils.writeToFile(fixtures, config.getOutput('fixtures'), type="w")

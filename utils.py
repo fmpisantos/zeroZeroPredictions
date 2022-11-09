@@ -5,6 +5,7 @@ import os
 import requests
 import config
 
+
 # Get previous day
 def getPreviousDay(date = None):
     # If date empty, return today
@@ -29,8 +30,15 @@ def getPreviousDay(date = None):
 
 # read JSON file
 def readJsonFile(filename):
+    filename = filename.replace("//","/")
     with open(filename) as f:
         return json.load(f)
+
+# read int from file
+def readIntFromFile(filename):
+    filename = filename.replace("//","/")
+    with open(filename) as f:
+        return int(f.read())
         
 # check if dictionary has key
 def hasKey(dictionary, key):
@@ -49,10 +57,10 @@ def createDirectory(path = ""):
         os.makedirs(path)
 
 # write dictionary to file
-def writeToFile (data, filename):
+def writeToFile (data, filename, type = "a"):
     filename = filename.replace("//","/")
     createDirectory(os.path.dirname(filename))
-    with open(filename, 'a') as outfile:
+    with open(filename, type) as outfile:
         json.dump(data, outfile, indent=4)
 
 # parse request response
@@ -75,14 +83,18 @@ def parseRequestResponse(response, request = ""):
 
 # convert ../zeroZero/utils.py/request to python3  
 def _request(url = "", headers = config.headers, method = config.GET, filename=""):
-    if method == config.GET:
-        return parseRequestResponse(requests.get(config.getUrl(url), headers = headers), f"{url.split('?')[0]}{f'/{filename}' if len(filename) > 0 else ''}")
-    elif method == config.POST:
-        return parseRequestResponse(requests.post(config.getUrl(url), headers = headers), f"{url.split('?')[0]}{f'/{filename}' if len(filename) > 0 else ''}")
-    elif method == config.PUT:
-        return parseRequestResponse(requests.put(config.getUrl(url), headers = headers), f"{url.split('?')[0]}{f'/{filename}' if len(filename) > 0 else ''}")
-    else:
-        return None
+    request = f"{url.split('?')[0]}{f'/{filename}' if len(filename) > 0 else ''}"
+    try:
+        return readJsonFile(config.getOutput(request))
+    except:
+        if method == config.GET:
+            return parseRequestResponse(requests.get(config.getUrl(url), headers = headers), request)
+        elif method == config.POST:
+            return parseRequestResponse(requests.post(config.getUrl(url), headers = headers), request)
+        elif method == config.PUT:
+            return parseRequestResponse(requests.put(config.getUrl(url), headers = headers), request)
+        else:
+            return None
 
 # get fixture statistics
 def getFixtureStatistics(fixtureId = -1):
