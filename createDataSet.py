@@ -70,7 +70,9 @@ def getFixturesFromDayBackwards(date, nRequests = 0):
         nRequests += 1
         # If no fixtures for a day, break
         if (fixturesForDay != None and len(fixturesForDay) == 0) or fixturesForDay == None:
-            break
+            # Get previous day
+            date = utils.getPreviousDay(date)
+            continue
         # Get statistics and predictions for all fixtures
         with Pool(5) as p:
             fixturesForDay = p.map(getFixturesStatisticsAndPredictionsParallel, fixturesForDay)

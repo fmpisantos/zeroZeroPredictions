@@ -64,35 +64,37 @@ def writeToFile (data, filename, type = "a"):
         json.dump(data, outfile, indent=4)
 
 # parse request response
-def parseRequestResponse(response, request = ""):
+def parseRequestResponse(response, request = "", filename=""):
     if response.status_code == 200:
         json = response.json()
         if json['results'] > 0:
             json = json['response']
             _print(json)
-            writeToFile(json, config.getOutput(request))
+            writeToFile(json, config.getOutput(request, filename))
             return json
         if json['errors'] != None and len(json['errors']) > 0:
             _print(json)
-            writeToFile(json, config.getErrorOutput(request))
+            writeToFile(json, config.getErrorOutput(request,filename))
             return None
     json = response.json()
     _print(json)
-    writeToFile(json, config.getErrorOutput(request))
+    writeToFile(json, config.getErrorOutput(request, filename))
     return None
 
 # convert ../zeroZero/utils.py/request to python3  
 def _request(url = "", headers = config.headers, method = config.GET, filename=""):
-    request = f"{url.split('?')[0]}{f'/{filename}' if len(filename) > 0 else ''}"
+    urlSplit = url.split('?')
+    request = f"{urlSplit[0]}{f'/{filename}' if len(filename) > 0 else ''}"
+    filename = f"{urlSplit[1]}{f'/{filename}' if len(filename) > 0 else ''}"
     try:
-        return readJsonFile(config.getOutput(request))
+        return readJsonFile(config.getOutput(request, filename))
     except:
         if method == config.GET:
-            return parseRequestResponse(requests.get(config.getUrl(url), headers = headers), request)
+            return parseRequestResponse(requests.get(config.getUrl(url), headers = headers), request, filename=filename)
         elif method == config.POST:
-            return parseRequestResponse(requests.post(config.getUrl(url), headers = headers), request)
+            return parseRequestResponse(requests.post(config.getUrl(url), headers = headers), request, filename=filename)
         elif method == config.PUT:
-            return parseRequestResponse(requests.put(config.getUrl(url), headers = headers), request)
+            return parseRequestResponse(requests.put(config.getUrl(url), headers = headers), request, filename=filename)
         else:
             return None
 

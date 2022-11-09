@@ -15,17 +15,17 @@ printToConsole = False
 dbLocation = "output/clearedData/db.json"
 
 maxNumberOfDailyRequests = 75000
-requestsPerDay = 50000
+requestsPerDay = 2000
 
 # Variables
 now = datetime.now()
 
 # Functions
-def getOutput(request = ""):
-    return f"{output}/{f'{request}/' if len(request) > 0 else ''}{now.today().strftime('%Y-%m-%d(%H:%M)')}.json"
+def getOutput(request = "", filename=""):
+    return f"{output}/{f'{request}/' if len(request) > 0 else ''}{filename if len(filename) > 0 else now.today().strftime('%Y-%m-%d(%H:%M)')}.json"
 
-def getErrorOutput(request = ""):
-    return f"{errorsOutput}{f'{request}/' if len(request) > 0 else ''}{now.today().strftime('%Y-%m-%d(%H:%M)')}.json"
+def getErrorOutput(request = "", filename=""):
+    return f"{errorsOutput}{f'{request}/' if len(request) > 0 else ''}{filename if len(filename) > 0 else now.today().strftime('%Y-%m-%d(%H:%M)')}.json"
 
 def getUrl(request = ""):
     return f"{url}/{request}"
