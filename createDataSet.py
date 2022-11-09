@@ -85,6 +85,13 @@ def getFixturesFromDayBackwards(date, nRequests = 0):
     utils.writeToFile(nRequests,config.getNRequestsPath(), type="w")
     return fixtures
 
+# Parse fixtures to game format
+def parseFixtures(fixtures):
+    # Parse fixtures to game format
+    games = []
+    for fixture in fixtures:
+        print(fixture)
+    return games
 
 # Main
 if __name__ == "__main__":
