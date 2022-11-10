@@ -3,9 +3,9 @@
     "filepath": "path/to/file",
     "fixtureId": "fixtureId",
     "green": "did NOT end in draw",
+    // region prediction
+    "notDrawPrediction": "1-drawPrediction",
     // Do for team 1, team 2 and average
-        // region prediction
-        "notDrawPrediction": "1-drawPrediction",
         // region teams.[home or away]
         "team.form": "0-1",
         "team.att": "0-1",
@@ -28,7 +28,7 @@
     "def": "abs(home - away)",
     "poisson_distribution": "abs(home - away)",
     "h2h": "abs(home - away)",
-    "total": "abs(home - away)",
+    "total": "abs(home - away)"
     // end region comparison
     // TODO: h2h analysis of h2h games as well
 }

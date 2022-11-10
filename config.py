@@ -15,7 +15,7 @@ printToConsole = False
 dbLocation = "output/clearedData/db.json"
 
 maxNumberOfDailyRequests = 75000
-requestsPerDay = 2000
+requestsPerDay = 10000
 
 # Variables
 now = datetime.now()
