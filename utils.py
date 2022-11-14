@@ -112,3 +112,16 @@ def _print(data):
 
 def loadFromDB(filename = config.dbLocation):
     return readJsonFile(filename)
+
+def removeExtension(filename = ""):
+    return filename.split(".")[0]
+
+def getFileNameFromPath(path = "", withExtension = True):
+    return removeExtension(path.split("/")[-1]) if not withExtension else path.split("/")[-1]
+
+# Menu to select file from filepath
+def selectFileFromPath(path = ""):
+    files = os.listdir(path)
+    for i in range(len(files)):
+        print(f"{i+1}. {files[i]}")
+    return files[int(input("Select file: "))-1]

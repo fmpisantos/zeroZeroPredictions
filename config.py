@@ -9,8 +9,8 @@ headers = {
     'X-RapidAPI-Key': 'f4a08b08f8mshe62281c6ac04ff4p113284jsncbc6e324673c',
     'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
     }
-output = "output/"
-errorsOutput = "errors/"
+output = "output"
+errorsOutput = "errors"
 printToConsole = False
 dbLocation = "output/clearedData/db.json"
 
@@ -32,3 +32,6 @@ def getUrl(request = ""):
 
 def getNRequestsPath():
     return f"{output}/nRequests.json"
+
+def getOutputFolder(request = ""):
+    return f"{output}/{f'{request}/' if len(request) > 0 else ''}"
