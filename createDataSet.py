@@ -123,7 +123,7 @@ def parseFixtures(fixtures, path):
         game['id'] = i
         game['filepath'] = path
         game['fixture'] = fixture['fixture']['id']
-        game['green'] = fixture['goals']['home'] - fixture['goals']['away'] != 0
+        game['green'] = fixture['goals']['home'] + fixture['goals']['away'] != 0
         game['NotDrawPrediction'] = 1 - int(fixture['predictions']['predictions']['percent']['draw'].split('%')[0]) / 100 
         game = parseFixture(game, fixture, 'home')
         game = parseFixture(game, fixture, 'away')
