@@ -16,6 +16,7 @@ dbLocation = "output/clearedData/db.json"
 
 maxNumberOfDailyRequests = 75000
 requestsPerDay = 10000
+minNumberOfGames = 5
 
 # Variables
 now = datetime.now()

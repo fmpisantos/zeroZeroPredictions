@@ -122,6 +122,11 @@ def getFileNameFromPath(path = "", withExtension = True):
 # Menu to select file from filepath
 def selectFileFromPath(path = ""):
     files = os.listdir(path)
+    if(len(files) == 0):
+        print(f"There are no files in this path ({path})")
+        return None
+    if(len(files) == 1):
+        return files[0]
     for i in range(len(files)):
         print(f"{i+1}. {files[i]}")
     return files[int(input("Select file: "))-1]
