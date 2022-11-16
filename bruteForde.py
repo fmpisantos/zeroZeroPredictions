@@ -37,15 +37,15 @@ def calculateBruteForce(fixtures = [], tags = []):
     for fixture in fixtures:
         predictedGreen = True
         for tag in tags:
-            if tag.tag in fixture:
-                home = fixture[tag.tag].replace("averageTeam.", "homeTeam.")
-                away = fixture[tag.tag].replace("averageTeam.", "awayTeam.")
-                if "Team" in tag.tag:
-                    if function(tag.tag, tag.min, fixture[home], fixture[away],fixture[tag.tag]) == False:
+            if tag['tag'] in fixture:
+                home = tag['tag'].replace("averageTeam.", "homeTeam.")
+                away = tag['tag'].replace("averageTeam.", "awayTeam.")
+                if "Team" in tag['tag']:
+                    if function(tag['tag'], tag['min'], fixture[home], fixture[away],fixture[tag['tag']]) == False:
                         predictedGreen = False
                         break
                 else:
-                    if function(tag.tag, tag.min, None, None,fixture[tag.tag]) == False:
+                    if function(tag['tag'], tag['min'], None, None,fixture[tag['tag']]) == False:
                         predictedGreen = False
                         break
         if predictedGreen:
@@ -58,7 +58,7 @@ def calculateBruteForce(fixtures = [], tags = []):
 # calculate increment for a tag
 def getIncrement(tag):
     inc = 0.1 if "increment" not in tag else tag["increment"]
-    if tag.tag in smallestTheBest or tag.tag in singleSmallest:
+    if tag['tag'] in smallestTheBest or tag['tag'] in singleSmallest:
         return inc * -1
     return inc
 
@@ -93,9 +93,10 @@ def loopTags(tags, fixtures, maxIterations = 0):
         # call calculateBruteForce
         greens, total = calculateBruteForce(fixtures, tags)
         # replace top 5 if needed
-        checkIfGreensBiggerThanAnyOther(greens, top5)
+        result = {"greens": greens, "reds": total - greens, "percent" : greens / total, "tags": tags}
+        checkIfGreensBiggerThanAnyOther(result, top5)
         # save results
-        results += [{"greens": greens, "reds": total - greens, "percent" : greens / total, "tags": tags}]
+        results += result
     return results, top5
 
 def getNumberOfIterations(tags):
@@ -108,13 +109,13 @@ def main(path):
     fixtures = loadFromDB(path)
     if fixtures is None:
         return None
-    fixtures = [f for f in fixtures if f['homeTeamGoals'] + f['awayTeamGoals'] > minNumberOfGames]
-    tags = loadFromDB(getOutputFolder('helper/bruteForce.json'))
-    tags = [{"tag": tag.tag, "max": tag.max, "inc": incrementTag(tag), "min": 0} for tag in tags]
-    results, top5 = loopTags(tags, fixtures)
+    fixtures = [f for f in fixtures if f['homeTeam.total'] + f['awayTeam.total'] > minNumberOfGames]
+    tags = loadFromDB(f"{getOutputFolder('helper')}bruteForce.json")
+    tags = [{"tag": tag['tag'], "max": tag['max'], "inc": getIncrement(tag), "min": 0} for tag in tags]
+    results, top5 = loopTags(tags, fixtures, getNumberOfIterations(tags))
     writeToFile(results, getOutput('results'))
     writeToFile(top5, getOutput('top5'))
 
 if __name__ == "__main__":
-    folder = getOutputFolder('parsedFixture', prefix="../")
+    folder = getOutputFolder('parsedFixture')
     main(f"{folder}{selectFileFromPath(folder)}")

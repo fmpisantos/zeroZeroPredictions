@@ -22,17 +22,17 @@ minNumberOfGames = 5
 now = datetime.now()
 
 # Functions
-def getOutput(request = "", filename=""):
-    return f"{output}/{f'{request}/' if len(request) > 0 else ''}{filename if len(filename) > 0 else now.today().strftime('%Y-%m-%d(%H:%M)')}.json"
+def getOutput(request = "", filename="", prefix=""):
+    return f"{prefix}{output}/{f'{request}/' if len(request) > 0 else ''}{filename if len(filename) > 0 else now.today().strftime('%Y-%m-%d(%H:%M)')}.json"
 
-def getErrorOutput(request = "", filename=""):
-    return f"{errorsOutput}{f'{request}/' if len(request) > 0 else ''}{filename if len(filename) > 0 else now.today().strftime('%Y-%m-%d(%H:%M)')}.json"
+def getErrorOutput(request = "", filename="", prefix=""):
+    return f"{prefix}{errorsOutput}{f'{request}/' if len(request) > 0 else ''}{filename if len(filename) > 0 else now.today().strftime('%Y-%m-%d(%H:%M)')}.json"
 
-def getUrl(request = ""):
+def getUrl(request = "", prefix=""):
     return f"{url}/{request}"
 
-def getNRequestsPath():
-    return f"{output}/nRequests.json"
+def getNRequestsPath(prefix=""):
+    return f"{prefix}{output}/nRequests.json"
 
-def getOutputFolder(request = ""):
-    return f"{output}/{f'{request}/' if len(request) > 0 else ''}"
+def getOutputFolder(request = "", prefix=""):
+    return f"{prefix}{output}/{f'{request}/' if len(request) > 0 else ''}"
