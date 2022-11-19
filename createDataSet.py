@@ -90,7 +90,7 @@ def fromStringPercentToFloat(percent):
     try:
         return float(percent.split('%')[0]) / 100
     except:
-        return 0
+        return 0.0
 
 def parseFixtureAverage(game):
     keys = list(game.keys()).copy()
@@ -149,7 +149,7 @@ def parseFixtures(fixtures, path):
         game['comparison.att'] = fromStringPercentToFloat(fixture['predictions'][0]['comparison']['att']['home']) + fromStringPercentToFloat(fixture['predictions'][0]['comparison']['att']['away']) * 0.5
         game['comparison.def'] = fromStringPercentToFloat(fixture['predictions'][0]['comparison']['def']['home']) + fromStringPercentToFloat(fixture['predictions'][0]['comparison']['def']['away']) * 0.5
         game['comparison.poisson_distribution'] = fromStringPercentToFloat(fixture['predictions'][0]['comparison']['poisson_distribution']['home']) + fromStringPercentToFloat(fixture['predictions'][0]['comparison']['poisson_distribution']['away']) * 0.5
-        game['comparison.h2h'] = fromStringPercentToFloat(fixture['predictions'][0]['comparison']['h2h']['home']) + fromStringPercentToFloat(fixture['predictions'][0]['comparison']['h2h']['away']) * 0.5
+        game['comparison.h2h'] = fromStringPercentToFloat(fixture['predictions'][0]['comparison']['h2h']['home']) - fromStringPercentToFloat(fixture['predictions'][0]['comparison']['h2h']['away']) * 0.5
         game['comparison.goals'] = fromStringPercentToFloat(fixture['predictions'][0]['comparison']['goals']['home']) + fromStringPercentToFloat(fixture['predictions'][0]['comparison']['goals']['away']) * 0.5
         game['comparison.total'] = fromStringPercentToFloat(fixture['predictions'][0]['comparison']['total']['home']) + fromStringPercentToFloat(fixture['predictions'][0]['comparison']['total']['away']) * 0.5
         games.append(game)

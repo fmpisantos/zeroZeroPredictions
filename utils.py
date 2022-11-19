@@ -60,6 +60,16 @@ def createDirectory(path = ""):
 def writeToFile (data, filename, type = "a"):
     filename = filename.replace("//","/")
     createDirectory(os.path.dirname(filename))
+    # check if file already exists
+    if os.path.exists(filename):
+        # check if file is is empty
+        if os.stat(filename).st_size == 0:
+            # write to file
+            with open(filename, type) as f:
+                json.dump(data, f)
+        else:
+            # add time to end of filename
+            filename = f"{filename.split('.')[0]}_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.{filename.split('.')[1]}"
     with open(filename, type) as outfile:
         json.dump(data, outfile, indent=4)
 
